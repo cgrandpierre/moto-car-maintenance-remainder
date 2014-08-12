@@ -1,9 +1,11 @@
 package com.yromela.mocamare;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class Main extends Activity {
@@ -11,7 +13,7 @@ public class Main extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
     }
 
 
@@ -32,5 +34,9 @@ public class Main extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addVehicle(View view) {
+        startActivity(new Intent(this, AddVehicleActivity.class));
     }
 }

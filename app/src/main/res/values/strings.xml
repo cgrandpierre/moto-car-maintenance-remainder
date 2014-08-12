@@ -2,7 +2,11 @@
 <resources>
 
     <string name="app_name">MoCaMaRe</string>
-    <string name="app_title">Maintenance remainder</string>
     <string name="action_settings">Settings</string>
+    <string name="add_vehicle">Add a vehicle</string>
+    <string name="vehicle_name">Name</string>
+    <string name="vehicle_km">Total km</string>
+    <string name="add_vehicle_perform">Add</string>
+    <string name="new_vehicle">New vehicle</string>
 
 </resources>
