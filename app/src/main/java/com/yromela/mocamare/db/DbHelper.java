@@ -4,18 +4,23 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class DbHelper extends SQLiteOpenHelper {
+
+    private static final String AUTHORITY = "com.yromela.mocamare";
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "mocamare.db";
 
 
-    private static abstract class VehicleTable implements BaseColumns {
-        private static final String NAME = "vehicle";
-        private static final String COL_NAME = "name";
-        private static final String COL_KM = "km";
+    public static abstract class VehicleTable implements BaseColumns {
+        public static final Uri CONTENT_URI = Uri.parse("content://"
+                + AUTHORITY + "/vehicles");
+        public static final String NAME = "vehicle";
+        public static final String COL_NAME = "name";
+        public static final String COL_KM = "km";
 
         private static final String SQL_CREATE_TABLE_REQUEST = String.format("CREATE TABLE %s (" +
                 "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -25,12 +30,9 @@ public final class DbHelper extends SQLiteOpenHelper {
         private static final String SQL_DELETE_TABLE_REQUEST = "DROP TABLE IF EXISTS " + NAME;
     }
 
-    private final SQLiteDatabase database;
-
 
     public DbHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        database = this.getWritableDatabase();
     }
 
     public void onCreate(final SQLiteDatabase db) {
@@ -51,7 +53,7 @@ public final class DbHelper extends SQLiteOpenHelper {
         final ContentValues values = new ContentValues();
         values.put(VehicleTable.COL_NAME, name);
         values.put(VehicleTable.COL_KM, kms);
-        return database.insert(VehicleTable.NAME, "<null>", values);
+        return this.getWritableDatabase().insert(VehicleTable.NAME, "<null>", values);
     }
 
 }

@@ -4,8 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.yromela.mocamare.db.DbHelper;
+
+import ua.org.zasadnyy.zvalidations.Field;
+import ua.org.zasadnyy.zvalidations.Form;
+import ua.org.zasadnyy.zvalidations.validations.IsPositiveInteger;
+import ua.org.zasadnyy.zvalidations.validations.NotEmpty;
 
 import static com.yromela.mocamare.util.UIUtils.showPopupInfo;
 import static java.lang.Integer.parseInt;
@@ -13,20 +19,33 @@ import static java.lang.String.format;
 
 public class AddVehicleActivity extends ActionBarActivity {
 
+    private final Form mForm = new Form(this);
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_vehicle);
+        mForm.addField(Field.using(getVehicleName()).validate(NotEmpty.build(this)));
+        mForm.addField(Field.using(getVehicleKms()).validate(NotEmpty.build(this)).validate(IsPositiveInteger.build(this)));
     }
 
     public void performVehicleAdding(final View view) {
-        final DbHelper dbHelper = new DbHelper(this);
-        final String name = ((EditText) findViewById(R.id.vehicle_name)).getText().toString();
-        final int kms = parseInt(((EditText) findViewById(R.id.vehicle_km)).getText().toString());
-        final long vehicleId = dbHelper.createVehicle(name, kms);
+        if (mForm.isValid()) {
+            final DbHelper dbHelper = new DbHelper(this);
+            final String name = (getVehicleName()).getText().toString();
+            final int kms = parseInt(getVehicleKms().getText().toString());
+            dbHelper.createVehicle(name, kms);
+        }
 
-        showPopupInfo(this, format("Vehicle %s successfully added", vehicleId));
+    }
+
+
+    private EditText getVehicleName() {
+        return (EditText) findViewById(R.id.vehicle_name);
+    }
+
+    private EditText getVehicleKms() {
+        return ((EditText) findViewById(R.id.vehicle_km));
     }
 
 }
