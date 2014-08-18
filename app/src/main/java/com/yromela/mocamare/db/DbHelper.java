@@ -2,6 +2,7 @@ package com.yromela.mocamare.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -48,12 +49,15 @@ public final class DbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-
     public long createVehicle(final String name, final int kms) {
         final ContentValues values = new ContentValues();
         values.put(VehicleTable.COL_NAME, name);
         values.put(VehicleTable.COL_KM, kms);
         return this.getWritableDatabase().insert(VehicleTable.NAME, "<null>", values);
+    }
+
+    public long countVehicles() {
+        return DatabaseUtils.queryNumEntries(this.getReadableDatabase(), VehicleTable.NAME, null, null);
     }
 
 }

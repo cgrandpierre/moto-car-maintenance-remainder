@@ -1,5 +1,6 @@
 package com.yromela.mocamare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -13,7 +14,6 @@ import ua.org.zasadnyy.zvalidations.Form;
 import ua.org.zasadnyy.zvalidations.validations.IsPositiveInteger;
 import ua.org.zasadnyy.zvalidations.validations.NotEmpty;
 
-import static com.yromela.mocamare.util.UIUtils.showPopupInfo;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 
@@ -34,9 +34,13 @@ public class AddVehicleActivity extends ActionBarActivity {
             final DbHelper dbHelper = new DbHelper(this);
             final String name = (getVehicleName()).getText().toString();
             final int kms = parseInt(getVehicleKms().getText().toString());
-            dbHelper.createVehicle(name, kms);
+            if (dbHelper.createVehicle(name, kms) != -1) {
+                Toast.makeText(this, format("Vehicle %s added", name), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "An error occurred while the vehicle adding", Toast.LENGTH_SHORT).show();
+            }
+            startActivity(new Intent(this, Main.class));
         }
-
     }
 
 
