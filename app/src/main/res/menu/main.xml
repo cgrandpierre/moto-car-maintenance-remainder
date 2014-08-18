@@ -1,7 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Main" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    xmlns:mocamare="http://schemas.android.com/apk/res-auto"
+    tools:context=".Main">
+    <item
+        android:id="@+id/menu_add_vehicle"
+        android:title="@string/menu_add_vehicle"
+        android:icon="@drawable/ic_action_new"
+        mocamare:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
         android:orderInCategory="100" />
 </menu>

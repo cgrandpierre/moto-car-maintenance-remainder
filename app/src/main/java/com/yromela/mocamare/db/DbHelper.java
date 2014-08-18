@@ -2,6 +2,7 @@ package com.yromela.mocamare.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -60,4 +61,13 @@ public final class DbHelper extends SQLiteOpenHelper {
         return DatabaseUtils.queryNumEntries(this.getReadableDatabase(), VehicleTable.NAME, null, null);
     }
 
+    public Cursor fetchAllVehicles() {
+        final Cursor cursor = getReadableDatabase().query(VehicleTable.NAME, new String[]{VehicleTable._ID,
+                        VehicleTable.COL_NAME, VehicleTable.COL_KM},
+                null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 }
